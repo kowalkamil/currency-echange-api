@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: currency-exchange
+  datasource:
+    url: jdbc:postgresql://postgres:5432/currency_exchange_db
+    username: user
+    password: userpassword
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        default_schema: public
+
+# Swagger
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    url: /v3/api-docs
+
+# Resilience4j configuration
+resilience4j:
+  circuitbreaker:
+    instances:
+      geoLocationService:
+        sliding-window-size: 10
+        minimum-number-of-calls: 5
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10s
+  retry:
+    instances:
+      geoLocationServiceRetry:
+        max-attempts: 3
+        wait-duration: 500ms
+currency:
+  api:
+    url: "https://api.nbp.pl/api/exchangerates/rates/a/{currency}/?format=json"
+jwt:
+  secret:
+    key: somekey0secret034n35h45jj345nkj3794gfrhfbjkdf83725
